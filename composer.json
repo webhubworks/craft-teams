@@ -1,0 +1,48 @@
+{
+  "name": "webhubworks/craft-teams",
+  "description": "Enter description",
+  "type": "craft-plugin",
+  "license": "proprietary",
+  "support": {
+    "email": "support@webhub.de",
+    "issues": "https://github.com/webhubworks/craft-teams/issues?state=open",
+    "source": "https://github.com/webhubworks/craft-teams",
+    "docs": "https://github.com/webhubworks/craft-teams",
+    "rss": "https://github.com/webhubworks/craft-teams/releases.atom"
+  },
+  "require": {
+    "php": ">=8.2",
+    "craftcms/cms": "^5.2.0"
+  },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "webhubworks\\teams\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "craft-teams",
+    "name": "Teams",
+    "developer": "webhubworks",
+    "documentationUrl": "https://github.com/webhubworks/craft-teams",
+    "class": "webhubworks\\teams\\Teams"
+  },
+  "scripts": {
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --ansi --fix",
+    "phpstan": "phpstan --memory-limit=1G"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
+  }
+}
