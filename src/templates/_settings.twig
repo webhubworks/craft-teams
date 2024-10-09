@@ -3,4 +3,35 @@
 
 {% import '_includes/forms.twig' as forms %}
 
-{# ... #}
+{{ forms.textField({
+    label: 'Team element name (Singular)',
+    instructions: 'You are able to override how the team element is called.',
+    id: 'teamLabelSingular',
+    name: 'teamLabelSingular',
+    value: settings.teamLabelSingular,
+}) }}
+
+{{ forms.textField({
+    label: 'Team element name (Plural)',
+    instructions: 'You are able to override how the team element is called.',
+    id: 'teamLabelPlural',
+    name: 'teamLabelPlural',
+    value: settings.teamLabelPlural,
+}) }}
+
+{{ forms.lightswitchField({
+    label: 'Multi-membership',
+    instructions: 'Allow users to be member of more than one team.',
+    id: 'isMultiMembershipAllowed',
+    name: 'isMultiMembershipAllowed',
+    on: settings.isMultiMembershipAllowed,
+}) }}
+
+<hr>
+
+{{ forms.fieldLayoutDesignerField({
+    instructions: 'You can optionally attach custom fields to team elements.',
+    fieldLayout: craft.app.fields.getLayoutByType(
+        'webhubworks\\teams\\elements\\Team'
+    ),
+}) }}

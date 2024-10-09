@@ -5,7 +5,16 @@ namespace webhubworks\teams;
 use Craft;
 use craft\base\Model;
 use craft\base\Plugin;
+use craft\events\PluginEvent;
+use craft\events\RegisterComponentTypesEvent;
+use craft\events\RegisterUrlRulesEvent;
+use craft\helpers\Json;
+use craft\services\Elements;
+use craft\services\Plugins;
+use craft\web\UrlManager;
+use webhubworks\teams\elements\Team;
 use webhubworks\teams\models\Settings;
+use yii\base\Event;
 
 /**
  * Teams plugin
@@ -60,5 +69,24 @@ class Teams extends Plugin
     {
         // Register event handlers here ...
         // (see https://craftcms.com/docs/5.x/extend/events.html to get started)
+        Event::on(Elements::class, Elements::EVENT_REGISTER_ELEMENT_TYPES, function (RegisterComponentTypesEvent $event) {
+            $event->types[] = Team::class;
+        });
+        Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function (RegisterUrlRulesEvent $event) {
+            $event->rules['teams'] = ['template' => 'craft-teams/teams/_index.twig'];
+            $event->rules['teams/<elementId:\\d+>'] = 'elements/edit';
+        });
+        \craft\base\Event::on(
+            Plugins::class,
+            Plugins::EVENT_AFTER_SAVE_PLUGIN_SETTINGS,
+            function (PluginEvent $event) {
+                if ($event->plugin->handle !== $this->handle) {
+                    return;
+                }
+                $fieldLayout = Craft::$app->getFields()->assembleLayoutFromPost('settings');
+                $fieldLayout->type = Team::class;
+                Craft::$app->getFields()->saveLayout($fieldLayout);
+            }
+        );
     }
 }
